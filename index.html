@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Pharma Operations - Master Interactive Training & Assessment Portal</title>
+    <style>
+        /* ==========================================================================
+           CSS RESET & CORPORATE DESIGN SYSTEM (WITH ANTI-THEFT)
+           ========================================================================== */
+        :root {
+            --primary-navy: #0a1f44; --navy-dark: #06152e; --accent-teal: #008080;
+            --teal-hover: #005f5f; --light-teal: #e6f4f4; --alert-orange: #e67e22;
+            --bg-color: #f4f7f9; --card-bg: #ffffff; --text-main: #2c3e50;
+            --text-muted: #64748b; --border: #dce4ec; --code-bg: #1e293b;
+            --success: #10b981; --danger: #ef4444; --transition: all 0.3s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { position: relative; min-height: 100%; }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; margin-bottom: 80px;
+            /* Anti-Theft: Prevent text selection */
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        }
+
+        /* Anti-Theft: Prevent image dragging */
+        img { -webkit-user-drag: none; pointer-events: none; }
+
+        header {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--primary-navy) 60%, #004d4d 100%);
+            color: #ffffff; padding: 40px 20px; text-align: center; box-shadow: 0 4px 15px rgba(10, 31, 68, 0.15);
+        }
+        header h1 { font-size: 2.3rem; margin-bottom: 8px; letter-spacing: 0.5px; font-weight: 700; }
+        header p { color: #80cbc4; font-size: 1.15rem; font-weight: 300; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        h2 { color: var(--primary-navy); margin-bottom: 20px; border-bottom: 3px solid var(--accent-teal); padding-bottom: 6px; display: inline-block; font-size: 1.6rem; }
+        h3 { color: var(--accent-teal); margin-bottom: 12px; font-size: 1.25rem; }
+
+        .tab-container { display: flex; justify-content: center; background-color: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+        .tab-button { background-color: transparent; border: none; outline: none; cursor: pointer; padding: 15px 14px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); transition: var(--transition); border-bottom: 4px solid transparent; }
+        .tab-button:hover { background-color: var(--light-teal); color: var(--accent-teal); }
+        .tab-button.active { color: var(--accent-teal); border-bottom: 4px solid var(--accent-teal); background-color: #ffffff; }
+
+        .module-content { display: none; padding: 30px 10px; animation: fadeIn 0.4s ease-in-out; }
+        .module-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
+        .card { background: var(--card-bg); border-radius: 8px; padding: 24px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-bottom:20px;}
+        .text-section ul { margin-left: 20px; margin-bottom: 15px; }
+        .text-section li { margin-bottom: 8px; }
+
+        .tools-badge-container { display: flex; align-items: center; gap: 10px; background: #eef6fa; border-left: 4px solid #0284c7; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 15px 0; }
+        .tool-tag { background: #0284c7; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
+
+        .mod-subnav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        .subnav-btn { background: #f1f5f9; border: 1px solid var(--border); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; color: var(--text-muted); transition: var(--transition); }
+        .subnav-btn.active { background: var(--primary-navy); color: #fff; border-color: var(--primary-navy); }
+        .sub-section { display: none; }
+        .sub-section.active { display: block; animation: fadeIn 0.3s; }
+
+        .scenario-box { background: #fefce8; border-left: 4px solid #eab308; padding: 20px; border-radius: 4px; margin-bottom: 25px; }
+        .knowledge-check { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 20px; border-radius: 6px; margin-bottom: 35px; }
+        .check-btn { background: var(--success); color: #fff; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 15px; transition: var(--transition); }
+        .check-btn:hover { background: #059669; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.2s; }
+        .modal-box { background: #fff; padding: 30px; border-radius: 8px; text-align: center; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-icon { font-size: 4rem; margin-bottom: 15px; }
+        .modal-title { font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 10px; font-weight: bold; }
+        .modal-btn { background: var(--primary-navy); color: #fff; padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95rem; }
+        input[type="text"], input[type="email"], input[type="tel"], textarea, select { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 5px; font-family: inherit; font-size: 0.95rem; transition: var(--transition); }
+        textarea { resize: vertical; height: 110px; }
+        
+        .question { margin-bottom: 22px; padding: 18px; background: #ffffff; border-left: 4px solid var(--accent-teal); border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid var(--border); }
+        .question p { margin-top: 0; font-weight: 600; font-size: 1rem; margin-bottom: 10px; color: var(--primary-navy); }
+        .options label { display: block; margin-bottom: 8px; font-weight: normal; cursor: pointer; font-size: 0.95rem; padding: 8px; border-radius: 4px; border: 1px solid transparent; transition: 0.2s; }
+        .options input[type="radio"] { margin-right: 8px; accent-color: var(--accent-teal); }
+
+        .opt-correct { background-color: #d1fae5; border-color: #34d399 !important; }
+        .opt-wrong { background-color: #fee2e2; border-color: #f87171 !important; text-decoration: line-through; }
+
+        #survey-section { display: none; }
+
+        table.likert { width: 100%; border-collapse: collapse; margin-bottom: 25px; background: #fff; border-radius: 6px; overflow: hidden; }
+        table.likert th, table.likert td { border: 1px solid var(--border); padding: 12px; text-align: center; }
+        table.likert th { background: #f1f5f9; color: var(--primary-navy); font-weight: 600; }
+        table.likert th:first-child, table.likert td:first-child { text-align: left; width: 40%; }
+        
+        .btn-submit { background-color: var(--accent-teal); color: #ffffff; border: none; padding: 14px 30px; font-size: 1rem; font-weight: 700; border-radius: 5px; cursor: pointer; display: inline-block; transition: var(--transition); box-shadow: 0 4px 10px rgba(0,128,128,0.25); }
+        .btn-submit:hover { background-color: var(--teal-hover); transform: translateY(-1px); }
+        .btn-submit:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .btn-nav-next { background-color: var(--primary-navy); color: #ffffff; border: none; padding: 12px 24px; font-size: 1rem; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
+        .btn-nav-next:hover { background-color: var(--navy-dark); }
+        .btn-nav-prev { background-color: var(--text-muted); color: #ffffff; border: none; padding: 12px 24px; font-size: 1rem; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
+        .btn-nav-prev:hover { background-color: #475569; }
+        
+        #loader { display: none; text-align: center; font-weight: bold; color: var(--accent-teal); margin-top: 15px; font-size: 1.05rem; }
+
+        #step-home { text-align: center; padding: 60px 20px; }
+        .home-banner { background: linear-gradient(135deg, #0a1f44 0%, #004d4d 100%); color: #ffffff; border-radius: 12px; padding: 60px 40px; box-shadow: 0 10px 30px rgba(10, 31, 68, 0.2); margin-bottom: 40px; position: relative; overflow: hidden; }
+        .home-banner::after { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.05) 10%, transparent 60%); transform: rotate(30deg); pointer-events: none; }
+        .home-title { font-size: 3rem; font-weight: 800; margin-bottom: 20px; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .home-subtitle { font-size: 1.4rem; font-weight: 300; color: #80cbc4; max-width: 800px; margin: 0 auto 30px auto; }
+        .home-badges { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+        .home-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.5px; backdrop-filter: blur(5px); }
+        .home-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; text-align: left; margin-bottom: 40px; }
+        .feature-card { background: #ffffff; padding: 25px; border-radius: 8px; border-top: 4px solid var(--accent-teal); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 15px; }
+        .feature-title { color: var(--primary-navy); font-weight: 700; font-size: 1.15rem; margin-bottom: 10px; }
+        .feature-desc { color: var(--text-muted); font-size: 0.95rem; }
+        .start-btn-container { margin-top: 20px; }
+
+        .timeline { border-left: 3px solid var(--accent-teal); padding-left: 25px; margin-left: 15px; position: relative; }
+        .timeline-item { position: relative; margin-bottom: 30px; }
+        .timeline-item::before { content: ''; position: absolute; left: -34px; top: 5px; width: 14px; height: 14px; background: #ffffff; border: 3px solid var(--accent-teal); border-radius: 50%; }
+        .timeline-time { font-weight: bold; color: var(--accent-teal); font-size: 0.95rem; margin-bottom: 5px; display: inline-block; background: var(--light-teal); padding: 3px 8px; border-radius: 4px;}
+        .timeline-title { font-weight: bold; font-size: 1.15rem; color: var(--primary-navy); margin-bottom: 8px; }
+
+        .walkthrough-container { background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 25px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+        .walkthrough-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; }
+        .walkthrough-title { font-size: 1.25rem; color: var(--primary-navy); font-weight: 700; }
+        .step-timeline { display: flex; flex-direction: column; gap: 20px; }
+        .step-item { display: flex; gap: 18px; position: relative; }
+        .step-number { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--accent-teal); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 6px rgba(0,128,128,0.3); z-index: 2;}
+        .step-item::after { content: ''; position: absolute; left: 18px; top: 40px; width: 2px; height: calc(100% - 20px); background: var(--border); z-index: 1;}
+        .step-item:last-child::after { display: none; }
+        
+        .step-body { flex-grow: 1; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 20px; }
+        .step-title { font-weight: 700; color: var(--primary-navy); margin-bottom: 8px; font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+        .step-desc { font-size: 0.95rem; color: #334155; margin-bottom: 12px; }
+
+        .ui-mockup { background: #ffffff; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 0.85rem; color: #334155; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .ui-mockup-header { background: #f1f5f9; padding: 8px 12px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #cbd5e1; font-weight: bold; color: #475569; }
+        .ui-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .ui-dot.red { background: #ef4444; }
+        .ui-dot.yellow { background: #f59e0b; }
+        .ui-dot.green { background: #10b981; }
+        .ui-window-title { margin-left: 8px; font-size: 0.8rem; color: #475569; display: flex; justify-content: space-between; width: 100%; align-items: center; }
+        
+        .ui-layout-flex { display: flex; min-height: 150px; }
+        .ui-sidebar { width: 25%; background: #f8fafc; border-right: 1px solid #cbd5e1; padding: 10px; }
+        .ui-main { width: 75%; padding: 15px; background: #ffffff; }
+        .ui-main-split { display: flex; width: 75%; }
+        .ui-content { width: 60%; padding: 15px; border-right: 1px solid #cbd5e1; }
+        .ui-panel { width: 40%; background: #f1f5f9; padding: 15px; }
+        
+        .ui-badge-secure { display: inline-block; background: #ecfdf5; color: #059669; border: 1px solid #34d399; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+        .ui-badge-danger { display: inline-block; background: #fef2f2; color: #dc2626; border: 1px solid #f87171; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+        .ui-badge-warning { display: inline-block; background: #fffbeb; color: #d97706; border: 1px solid #fbbf24; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+        .ui-input-box { border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px; margin-top: 10px; background: #fff; display: flex; align-items: center; gap: 10px; }
+        .ui-btn-primary { background: #0ea5e9; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; text-align: center; display: inline-block; margin-top: 10px; }
+        .ui-btn-success { background: #10b981; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; text-align: center; display: inline-block; margin-top: 10px; }
+        .ui-chat-bubble { background: #e0f2fe; padding: 10px; border-radius: 8px 8px 8px 0; margin-bottom: 10px; color: #0369a1; border-left: 3px solid #0284c7;}
+        .ui-chat-bubble-user { background: #f1f5f9; padding: 10px; border-radius: 8px 8px 0 8px; margin-bottom: 10px; text-align: right; border-right: 3px solid #94a3b8;}
+        
+        .course-video { width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); background: #000; outline: none; }
+        .video-label { font-weight: bold; font-size: 1.05rem; margin-top: 10px; color: var(--primary-navy); text-align: center;}
+        .video-desc { font-size: 0.85rem; color: var(--text-muted); text-align: center;}
+
+        .expanded-content p { margin-bottom: 12px; color: var(--text-main); font-size: 1rem; line-height: 1.7;}
+
+        footer { position: absolute; bottom: 0; width: 100%; background-color: var(--navy-dark); color: #ffffff; padding: 15px 0; text-align: center; }
+        .footer-content { display: flex; justify-content: center; align-items: center; gap: 25px; flex-wrap: wrap; }
+        .footer-link { color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; transition: color 0.3s; }
+        .footer-link:hover { color: var(--accent-teal); }
+        .footer-icon { width: 20px; height: 20px; fill: currentColor; }
+
+        @media (max-width: 768px) {
+            .grid-layout, .home-features { grid-template-columns: 1fr; }
+            .tab-button { flex: 1 1 100%; text-align: center; border-bottom: 1px solid #eee; }
+            table.likert th, table.likert td { padding: 8px 4px; font-size: 0.85rem; }
+            .ui-layout-flex, .ui-main-split { flex-direction: column; }
+            .ui-sidebar, .ui-main, .ui-content, .ui-panel { width: 100%; border-right: none; border-bottom: 1px solid #cbd5e1; }
+            .footer-content { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header style="display:none;" id="main-header">
+        <h1>AI-Powered Pharma Operations</h1>
+        <p>Strategic Implementation, Assessment & Interactive Training</p>
+    </header>
+
+    <div class="tab-container" id="main-tabs" style="display:none;">
+        <button class="tab-button" onclick="openModule(event, 'step-home')">Home</button>
+        <button class="tab-button" onclick="openModule(event, 'step-agenda')">Agenda</button>
+        <button class="tab-button" onclick="openModule(event, 'step-objectives')">Objectives</button>
+        <button class="tab-button" onclick="openModule(event, 'step-pre')">Registration & Pre-Test</button>
+        <button class="tab-button" onclick="openModule(event, 'mod1')">Mod 1</button>
+        <button class="tab-button" onclick="openModule(event, 'mod2')">Mod 2</button>
+        <button class="tab-button" onclick="openModule(event, 'mod3')">Mod 3</button>
+        <button class="tab-button" onclick="openModule(event, 'mod4')">Mod 4</button>
+        <button class="tab-button" onclick="openModule(event, 'mod5')">Mod 5</button>
+        <button class="tab-button" onclick="openModule(event, 'step-post')">Final Post-Test</button>
+    </div>
+
+    <div class="container">
+        <!-- HOME COVER PAGE -->
+        <div id="step-home" class="module-content active" style="padding-top:0;">
+            <div class="home-banner">
+                <div class="home-title">AI-Powered Pharma Operations</div>
+                <div class="home-subtitle">Strategic Implementation, Tool Execution & Operational Assessment Portal</div>
+                <div class="home-badges">
+                    <div class="home-badge">Microsoft 365 Copilot</div>
+                    <div class="home-badge">Zendesk AI</div>
+                    <div class="home-badge">Route4Me</div>
+                    <div class="home-badge">Azure IoT Central</div>
+                    <div class="home-badge">Power BI Copilot</div>
+                    <div class="home-badge">Azure OpenAI</div>
+                </div>
+                <div class="start-btn-container">
+                    <button class="btn-submit" style="font-size: 1.2rem; padding: 18px 45px; border-radius: 30px; box-shadow: 0 6px 20px rgba(0, 128, 128, 0.4);" onclick="startPortal()">Enter Training Portal &rarr;</button>
+                </div>
+            </div>
+
+            <div class="home-features">
+                <div class="feature-card"><div class="feature-icon">📚</div><div class="feature-title">5 Core Modules</div><div class="feature-desc">Comprehensive training covering Foundations, Omnichannel, Retail Maintenance, Ops Excellence, and Strategic Deployment.</div></div>
+                <div class="feature-card"><div class="feature-icon">💻</div><div class="feature-title">Interactive Tool Guides</div><div class="feature-desc">Highly detailed step-by-step UI walkthroughs of enterprise AI tools, complete with real-world pharma operation scenarios.</div></div>
+                <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-title">Dynamic Assessment</div><div class="feature-desc">Baseline pre-assessment and a rigorous 80%-benchmark post-assessment to guarantee knowledge retention.</div></div>
+            </div>
+        </div>
+
+        <!-- AGENDA TAB -->
+        <div id="step-agenda" class="module-content">
+            <h2>Training Agenda</h2>
+            <div class="card" style="margin-bottom: 20px;">
+                <p style="margin-bottom: 20px;">Welcome to the <strong>AI-Powered Pharma Operations</strong> training program. The schedule is structured to move from theoretical foundations directly into practical, tool-based execution.</p>
+                <div class="timeline">
+                    <div class="timeline-item"><span class="timeline-time">Day 1: Foundations & Omnichannel</span><div class="timeline-title">09:00 - 10:30 | Module 1</div><p>Demystifying AI & Enterprise Data Security (Microsoft 365 Copilot).</p></div>
+                    <div class="timeline-item"><div class="timeline-title">10:45 - 12:45 | Module 2</div><p>Omnichannel AI: Delivery & Guest Care (Zendesk AI & Route4Me).</p></div>
+                    <div class="timeline-item"><span class="timeline-time">Day 2: Retail & Operations Excellence</span><div class="timeline-title">09:00 - 11:00 | Module 3</div><p>Intelligent Retail: Maintenance & Visual Merchandising (Azure IoT & Trax).</p></div>
+                    <div class="timeline-item"><div class="timeline-title">11:15 - 13:15 | Module 4</div><p>Operations Excellence: Analytics & Compliance (Power BI Copilot & Zebra Analytics).</p></div>
+                    <div class="timeline-item"><span class="timeline-time">Day 3: Leadership & Deployment</span><div class="timeline-title">09:00 - 10:30 | Module 5</div><p>Strategic Deployment, Change Management & Pilot Structuring.</p></div>
+                    <div class="timeline-item" style="margin-bottom: 0;"><div class="timeline-title">10:45 - 11:30 | Final Assessment</div><p>Post-Assessment (80% Benchmark required) & Survey Evaluation.</p></div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav-prev" onclick="openModule(null, 'step-home')">&larr; Home</button>
+                <button class="btn-nav-next" onclick="openModule(null, 'step-objectives')">Next: Objectives &rarr;</button>
+            </div>
+        </div>
+
+        <!-- OBJECTIVES TAB -->
+        <div id="step-objectives" class="module-content">
+            <h2>Training Objectives</h2>
+            <p style="margin-bottom: 25px; color: var(--text-muted); font-size: 1.1rem;">By the end of this comprehensive program, pharmaceutical operations personnel will be equipped to:</p>
+            <div class="home-features">
+                <div class="feature-card"><div class="feature-icon">🛡️</div><div class="feature-title">Master Enterprise AI</div><div class="feature-desc">Safely execute operational prompts using Microsoft 365 Copilot without violating healthcare data compliance or exposing PHI.</div></div>
+                <div class="feature-card"><div class="feature-icon">🚚</div><div class="feature-title">Automate Triage & Routing</div><div class="feature-desc">Implement AI sentiment analysis in Guest Care and utilize dynamic logistics routing for cold-chain deliveries.</div></div>
+                <div class="feature-card"><div class="feature-icon">⚙️</div><div class="feature-title">Predictive Maintenance</div><div class="feature-desc">Interpret Azure IoT telemetry to dispatch maintenance teams <em>before</em> critical pharmacy hardware fails.</div></div>
+                <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-title">Analytical Insights</div><div class="feature-desc">Use natural language querying in Power BI to audit OPEX, detect shrinkage, and ensure Narcomed compliance.</div></div>
+                <div class="feature-card"><div class="feature-icon">🚀</div><div class="feature-title">Execute 30-Day Pilots</div><div class="feature-desc">Structure, measure, and deploy controlled 30-day AI pilots within departments using the ADKAR change management framework.</div></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav-prev" onclick="openModule(null, 'step-agenda')">&larr; Agenda</button>
+                <button class="btn-nav-next" onclick="openModule(null, 'step-pre')">Proceed to Registration &rarr;</button>
+            </div>
+        </div>
+
+        <!-- REGISTRATION & PRE-ASSESSMENT -->
+        <div id="step-pre" class="module-content">
+            <h2>Trainee Registration</h2>
+            <div class="card" style="margin-bottom: 30px;">
+                <div class="grid-layout" style="margin-bottom: 0;">
+                    <div class="form-group"><label>Name *</label><input type="text" id="t-name" placeholder="Full Name" required></div>
+                    <div class="form-group"><label>Email (Corporate) *</label><input type="email" id="t-email" placeholder="name@company.com" required></div>
+                    <div class="form-group"><label>Mobile *</label><input type="tel" id="t-mobile" required></div>
+                    <div class="form-group"><label>WhatsApp *</label><input type="tel" id="t-whatsapp" required></div>
+                    <div class="form-group"><label>Title *</label><input type="text" id="t-title" placeholder="Job Title" required></div>
+                    <div class="form-group"><label>Department *</label><input type="text" id="t-dept" required></div>
+                </div>
+            </div>
+            <h2>Baseline Pre-Assessment</h2>
+            <p style="margin-bottom: 20px; color: var(--text-muted);">Answer each baseline question. Scores are calculated as a percentage in the background.</p>
+            <div id="pre-questions-container"></div>
+            <div class="nav-buttons">
+                <button class="btn-nav-prev" onclick="openModule(null, 'step-objectives')">&larr; Objectives</button>
+                <button class="btn-submit" onclick="validateAndStart()">Submit & Open Module 1 &rarr;</button>
+            </div>
+        </div>
+
+        <!-- MODULE 1 -->
+        <div id="mod1" class="module-content">
+            <h2>Module 1: The AI-Enhanced Pharma Operation</h2>
+            <div class="mod-subnav">
+                <button class="subnav-btn active" onclick="switchSubTab(this, 'm1-guide')">Tool Guide & Implementation</button>
+                <button class="subnav-btn" onclick="switchSubTab(this, 'm1-scenario')">Scenarios & Knowledge Check</button>
+            </div>
+            <div id="m1-guide" class="sub-section active">
+                <div class="grid-layout">
+                    <div class="text-section expanded-content">
+                        <h3>Implementation Strategy</h3>
+                        <p>The pharmaceutical industry handles highly sensitive proprietary and patient data. The first step in operational AI is establishing a secure perimeter. We transition teams away from public LLMs (which ingest prompts for model training) to isolated Enterprise AI environments.</p>
+                        <p><strong>Operational Outcome:</strong> Ensuring zero data leakage while accelerating administrative tasks like SOP synthesis, vendor contract review, and internal communications drafting by 80%.</p>
+                        <div class="tools-badge-container">
+                            <span class="tool-tag">Primary Tool</span><span><strong>Microsoft 365 Copilot (Enterprise Data Protection)</strong></span>
+                        </div>
+                    </div>
+                    <div class="video-section">
+                        <iframe class="course-video" style="height: 250px; border: none; border-radius: 8px;" src="https://www.youtube-nocookie.com/embed/S7xTBa93TX8" title="Microsoft 365 Copilot Overview" allowfullscreen></iframe>
+                        <div class="video-label">Video: Microsoft 365 Copilot in Action</div>
+                        <div class="video-desc">Overview of how Enterprise AI assists in handling operational documents securely.</div>
+                    </div>
+                </div>
+
+                <div class="walkthrough-container">
+                    <div class="walkthrough-header"><span class="walkthrough-title">🛠️ Detailed Guide: Copilot ACT Prompting for Operational SOPs</span><span class="tool-tag">Implementation Steps</span></div>
+                    <div class="step-timeline">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-body">
+                                <div class="step-title">Verify Enterprise Data Protection Settings</div>
+                                <div class="step-desc"><strong>Implementation:</strong> Operations staff must launch Microsoft Edge logged in with corporate AAD credentials. Before inputting any internal data, users must visually verify the "Commercial Data Protection" shield icon. This confirms the session is stateless and isolated.</div>
+                                <div class="ui-mockup">
+                                    <div class="ui-mockup-header"><span class="ui-dot red"></span><span class="ui-dot yellow"></span><span class="ui-dot green"></span><span class="ui-window-title">Microsoft 365 Copilot <span class="ui-badge-secure">🛡️ Protected</span></span></div>
+                                    <div class="ui-layout-flex">
+                                        <div class="ui-main" style="width:100%; text-align:center; padding:30px;">
+                                            <div style="font-size:2rem; margin-bottom:10px;">🛡️</div>
+                                            <strong>Your personal and company data are protected in this chat.</strong><br>
+                                            <span style="font-size:0.85rem; color:#64748b;">Your chats are not saved, and Microsoft has no eyes-on access. Your data is not used to train models.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item"><div class="step-number">2</div><div class="step-body"><div class="step-title">Ingest Contextual Documents</div><div class="step-desc"><strong>Implementation:</strong> Do not rely on the AI's internal knowledge for company policies. Click the paperclip icon to upload explicit context (e.g., <code>MOH_ColdChain_Guideline_v4.pdf</code>) to bind the AI's logic strictly to the provided document.</div></div></div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-body">
+                                <div class="step-title">Execute the ACT Prompt Structure</div>
+                                <div class="step-desc"><strong>Implementation:</strong> Construct your prompt using the <strong>A</strong>ssign Role, <strong>C</strong>ontextualize Task, and <strong>T</strong>arget Format framework. This reduces hallucinations and enforces strict formatting.</div>
+                                <div class="ui-mockup">
+                                    <div class="ui-mockup-header"><span class="ui-dot red"></span><span class="ui-dot yellow"></span><span class="ui-dot green"></span><span class="ui-window-title">Copilot Prompt Composer</span></div>
+                                    <div class="ui-layout-flex" style="flex-direction: column; padding: 15px;">
+                                        <div class="ui-chat-bubble">
+                                            <strong>Attached:</strong> 📄 <em>MOH_ColdChain_Guideline_v4.pdf</em><br><br>
+                                            <strong>[Role]:</strong> Act as a Senior Pharmacy Operations Excellence Lead.<br>
+                                            <strong>[Context]:</strong> Review the attached Ministry of Health circular. Identify any regulatory changes affecting daily store-level temperature logging.<br>
+                                            <strong>[Target]:</strong> Output a 5-point bulleted action checklist tailored for morning shift huddles. Remove all complex legal jargon.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item"><div class="step-number">4</div><div class="step-body"><div class="step-title">Validate and Disseminate Output</div><div class="step-desc"><strong>Implementation:</strong> The AI generates the checklist. The operations manager validates the 5 points against their domain knowledge, clicks "Export to Word" or "Copy", and disseminates the localized SOP to the regional Teams channel. Expected time saved: 45 minutes per SOP.</div></div></div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="openModule(null, 'step-pre')">&larr; Previous</button>
+                    <button class="btn-nav-next" onclick="document.querySelector('#mod1 .subnav-btn:nth-child(2)').click()">Next: Scenarios & Check &rarr;</button>
+                </div>
+            </div>
+
+            <div id="m1-scenario" class="sub-section">
+                <div class="scenario-box">
+                    <h4>📝 Scenario 1: The Massive Vendor Contract</h4>
+                    <p><strong>Situation:</strong> You receive a 100-page vendor contract for new pharmacy shelving. You need to summarize the key financial obligations quickly.</p>
+                    <p><strong>Correct Action:</strong> Verify Microsoft 365 Copilot displays the "Green Shield". Upload the PDF and use the ACT prompt: <em>"Act as a Procurement Manager. Review this contract and extract all termination penalties into a bulleted list."</em></p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 1</h4>
+                    <p>Why must you verify the 'Green Shield' before uploading the contract?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m1_kc1" value="wrong"> A) To make the AI generate faster text.</label>
+                        <label><input type="radio" name="m1_kc1" value="correct"> B) To ensure the proprietary contract data is not retained or used to train public models.</label>
+                        <label><input type="radio" name="m1_kc1" value="wrong"> C) To check internet connectivity.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m1_kc1')">Check Answer</button>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>📝 Scenario 2: Regional Communication Tone Adjustment</h4>
+                    <p><strong>Situation:</strong> HQ sends a highly technical, 12-page legal document regarding new overtime policies. You need to send an email to your frontline retail staff explaining it.</p>
+                    <p><strong>Correct Action:</strong> Use Copilot. Prompt: <em>"Act as a supportive District Manager. Summarize the attached overtime policy into a 3-paragraph email. Use a friendly, encouraging tone easily understood by frontline pharmacy staff without legal jargon."</em></p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 2</h4>
+                    <p>In the prompt above, which element represents the 'Target Format' (T) in the ACT framework?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m1_kc2" value="wrong"> A) Act as a supportive District Manager.</label>
+                        <label><input type="radio" name="m1_kc2" value="wrong"> B) Summarize the attached overtime policy.</label>
+                        <label><input type="radio" name="m1_kc2" value="correct"> C) A 3-paragraph email.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m1_kc2')">Check Answer</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="document.querySelector('#mod1 .subnav-btn:nth-child(1)').click()">&larr; Back to Guide</button>
+                    <button class="btn-nav-next" onclick="openModule(null, 'mod2')">Continue to Module 2 &rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 2 -->
+        <div id="mod2" class="module-content">
+            <h2>Module 2: Omnichannel AI &ndash; Delivery & Guest Care</h2>
+            <div class="mod-subnav">
+                <button class="subnav-btn active" onclick="switchSubTab(this, 'm2-guide')">Tool Guide & Implementation</button>
+                <button class="subnav-btn" onclick="switchSubTab(this, 'm2-scenario')">Scenarios & Knowledge Check</button>
+            </div>
+            
+            <div id="m2-guide" class="sub-section active">
+                <div class="grid-layout">
+                    <div class="text-section expanded-content">
+                        <h3>Implementation Strategy</h3>
+                        <p>Omnichannel success requires collapsing the friction between digital orders (ez-pill), physical delivery logistics, and guest care. We implement AI to break standard "First-In-First-Out" support queues by dynamically triaging intent.</p>
+                        <p><strong>Operational Outcome:</strong> Reducing Guest Care critical medication response times from hours to under 2 minutes, while simultaneously optimizing cold-chain fleet routing variables (traffic, temperature constraints) that are impossible for human dispatchers to calculate manually.</p>
+                        <div class="tools-badge-container">
+                            <span class="tool-tag">Primary Tools</span>
+                            <span><strong>Zendesk Advanced AI (Guest Care) + Route4Me (Last-Mile Fleet)</strong></span>
+                        </div>
+                    </div>
+                    <div class="video-section">
+                        <iframe class="course-video" style="height: 250px; border: none; border-radius: 8px;" src="https://www.youtube-nocookie.com/embed/vB7Gk52lE3I" title="AI Route Optimization & Logistics" allowfullscreen></iframe>
+                        <div class="video-label">Video: AI Route Optimization & Logistics</div>
+                        <div class="video-desc">Dynamic explanation of how AI optimizes complex supply chain and delivery routing.</div>
+                    </div>
+                </div>
+
+                <div class="walkthrough-container">
+                    <div class="walkthrough-header"><span class="walkthrough-title">🛠️ Detailed Guide: Zendesk AI Intent Integration & Auto-Response</span><span class="tool-tag">Implementation Steps</span></div>
+                    <div class="step-timeline">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-body">
+                                <div class="step-title">Configure Intent Dictionaries & Automated Triage</div>
+                                <div class="step-desc"><strong>Implementation:</strong> Admin configures Zendesk AI Advanced Intent models to recognize specific pharmaceutical keywords (e.g., "heart medication", "insulin", "emergency"). When an inbound email triggers these intents, the AI bypasses the standard queue and assigns a "CRITICAL" priority badge.</div>
+                                <div class="ui-mockup">
+                                    <div class="ui-mockup-header"><span class="ui-dot red"></span><span class="ui-dot yellow"></span><span class="ui-dot green"></span><span class="ui-window-title">Zendesk Agent Workspace &mdash; Inbound Ticket</span></div>
+                                    <div class="ui-layout-flex">
+                                        <div class="ui-sidebar">
+                                            <strong>Intelligence Pane</strong><hr style="margin:5px 0; border:none; border-top:1px solid #cbd5e1;">
+                                            Intent: <span class="ui-badge-warning">Order_Delay</span><br><br>
+                                            Sentiment: <span class="ui-badge-danger">Highly Negative</span><br><br>
+                                            Priority: <span class="ui-badge-danger">CRITICAL_MED</span>
+                                        </div>
+                                        <div class="ui-main">
+                                            <strong>Patient Message:</strong><br>
+                                            <span class="ui-string">"My mother's heart medication is 3 hours late! This is unacceptable! Where is the driver?"</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item"><div class="step-number">2</div><div class="step-body"><div class="step-title">API Call to Logistics Backend (Route4Me)</div><div class="step-desc"><strong>Implementation:</strong> The system automatically extracts the tracking/order number from the patient's profile and triggers a background API call to the Route4Me dispatch backend to retrieve the live GPS coordinates of the assigned delivery vehicle.</div></div></div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-body">
+                                <div class="step-title">Agent Assist Macro Generation</div>
+                                <div class="step-desc"><strong>Implementation:</strong> The AI synthesizes the negative sentiment tag and the live GPS data to formulate a highly empathetic draft response for the human agent. The agent reviews, edits if necessary, and clicks send. Expected Handle Time drops from 6 minutes to 45 seconds.</div>
+                                <div class="ui-mockup">
+                                    <div class="ui-mockup-header"><span class="ui-dot red"></span><span class="ui-dot yellow"></span><span class="ui-dot green"></span><span class="ui-window-title">AI Copilot Suggested Response Editor</span></div>
+                                    <div class="ui-layout-flex" style="flex-direction:column; padding:15px;">
+                                        <div class="ui-input-box">
+                                            <span style="color:#0ea5e9; font-weight:bold;">✨ AI Draft:</span> "Dear Customer, we sincerely apologize for the stress this delay has caused. I have checked the system and your refrigerated delivery vehicle (Driver #12) is currently 1.2 km away. We have escalated this to ensure immediate drop-off upon arrival."
+                                        </div>
+                                        <div style="margin-top:10px;"><div class="ui-btn-success">Approve & Send (Macro)</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="openModule(null, 'mod1')">&larr; Previous Module</button>
+                    <button class="btn-nav-next" onclick="document.querySelector('#mod2 .subnav-btn:nth-child(2)').click()">Next: Scenarios & Check &rarr;</button>
+                </div>
+            </div>
+
+            <div id="m2-scenario" class="sub-section">
+                <div class="scenario-box">
+                    <h4>📝 Scenario 1: The Flash Flood Reroute</h4>
+                    <p><strong>Situation:</strong> Severe flooding closes major roads in Jeddah. You have a vehicle carrying temperature-sensitive insulin.</p>
+                    <p><strong>Correct Action:</strong> Input road closures into Route4Me. The AI dynamically recalculates the combinatorial sequence and pushes the updated route to the driver's device, prioritizing insulin drops before thermal limits breach.</p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 1</h4>
+                    <p>Why is AI crucial for combinatorial logistics in this scenario?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m2_kc1" value="correct"> A) Humans cannot instantly calculate millions of route variations factoring live traffic and strict cold-chain time limits.</label>
+                        <label><input type="radio" name="m2_kc1" value="wrong"> B) AI drives the delivery vehicle automatically.</label>
+                        <label><input type="radio" name="m2_kc1" value="wrong"> C) It saves money on toll roads.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m2_kc1')">Check Answer</button>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>📝 Scenario 2: Triaging a Frustrated Patient</h4>
+                    <p><strong>Situation:</strong> The Guest Care queue has 400 pending emails. A patient submits an email about missing critical oncology medication.</p>
+                    <p><strong>Correct Action:</strong> Zendesk AI automatically tags the email with "Urgency: CRITICAL_MED" and bypasses the standard FIFO (First-In-First-Out) queue, placing it instantly at the top of a human agent's screen.</p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 2</h4>
+                    <p>What is the primary operational benefit of AI intent tagging in the Guest Care queue?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m2_kc2" value="wrong"> A) Auto-deleting customer complaints.</label>
+                        <label><input type="radio" name="m2_kc2" value="wrong"> B) Sending standard automated generic replies to everyone.</label>
+                        <label><input type="radio" name="m2_kc2" value="correct"> C) Breaking the FIFO queue to prioritize life-critical medication inquiries.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m2_kc2')">Check Answer</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="document.querySelector('#mod2 .subnav-btn:nth-child(1)').click()">&larr; Back to Guide</button>
+                    <button class="btn-nav-next" onclick="openModule(null, 'mod3')">Continue to Module 3 &rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 3 -->
+        <div id="mod3" class="module-content">
+            <h2>Module 3: Intelligent Retail &ndash; Maintenance & Merchandising</h2>
+            <div class="mod-subnav">
+                <button class="subnav-btn active" onclick="switchSubTab(this, 'm3-guide')">Tool Guide & Implementation</button>
+                <button class="subnav-btn" onclick="switchSubTab(this, 'm3-scenario')">Scenarios & Knowledge Check</button>
+            </div>
+            
+            <div id="m3-guide" class="sub-section active">
+                <div class="grid-layout">
+                    <div class="text-section expanded-content">
+                        <h3>Implementation Strategy</h3>
+                        <p>We are shifting retail field operations from a reactive posture (fixing fridges after medication has spoiled, manually walking aisles to check stock) to a proactive, predictive posture. This relies on the integration of hardware sensors and computer vision AI models.</p>
+                        <p><strong>Operational Outcome:</strong> Zero cold-chain spoilage due to mechanical failure. 100% planogram compliance verification across 50+ regional stores executed remotely within minutes via image capture.</p>
+                        <div class="tools-badge-container">
+                            <span class="tool-tag">Primary Tools</span>
+                            <span><strong>Azure IoT Central (Cold-Chain) + Trax Retail (Computer Vision VM)</strong></span>
+                        </div>
+                    </div>
+                    <div class="video-section">
+                        <iframe class="course-video" style="height: 250px; border: none; border-radius: 8px;" src="https://www.youtube-nocookie.com/embed/Q4u5DqjUfK8" title="Industrial IoT Predictive Maintenance" allowfullscreen></iframe>
+                        <div class="video-label">Video: Industrial IoT Predictive Maintenance</div>
+                        <div class="video-desc">Overview of using sensor telemetry for early anomaly detection and maintenance.</div>
+                    </div>
+                </div>
+
+                <div class="walkthrough-container">
+                    <div class="walkthrough-header"><span class="walkthrough-title">🛠️ Detailed Guide: Azure IoT Central Predictive Telemetry Configuration</span><span class="tool-tag">Maintenance Flow</span></div>
+                    <div class="step-timeline">
+                        <div class="step-item"><div class="step-number">1</div><div class="step-body"><div class="step-title">Hardware Provisioning & Telemetry Baseline</div><div class="step-desc"><strong>Implementation:</strong> Physical IoT sensors (measuring Temp, Humidity, and Compressor Vibration) are installed on pharmacy fridges. The Azure IoT model establishes a 30-day baseline of "normal" compressor behavior (e.g., standard vibration is between 5.0 and 8.0 mm/s RMS).</div></div></div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-body">
+                                <div class="step-title">Anomaly Detection & Threshold Breach</div>
+                                <div class="step-desc"><strong>Implementation:</strong> The AI model continuously analyzes live telemetry. If a compressor begins vibrating abnormally (indicating bearing wear), an AI Anomaly Score is generated long before the internal temperature actually begins to drop.</div>
+                                <div class="ui-mockup">
+                                    <div class="ui-mockup-header"><span class="ui-dot red"></span><span class="ui-dot yellow"></span><span class="ui-dot green"></span><span class="ui-window-title">Azure IoT Central Dashboard &mdash; FRIDGE-ST-114-A</span></div>
+                                    <div class="ui-layout-flex">
+                                        <div class="ui-sidebar">
+                                            <strong>Status Feed</strong><br><br>
+                                            Temp: <span class="ui-badge-secure">4.8&deg;C</span><br><br>
+                                            Vibration: <span class="ui-badge-danger">14.2 mm/s</span>
+                                        </div>
+                                        <div class="ui-main">
+                                            <div style="width:100%; height:80px; border-bottom:2px solid #cbd5e1; position:relative;">
+                                                <div style="position:absolute; bottom:10px; left:0; width:60%; height:2px; background:#10b981;"></div>
+                                                <div style="position:absolute; bottom:10px; left:60%; width:40%; height:40px; border-left:2px solid #ef4444; border-top:2px solid #ef4444;"></div>
+                                            </div>
+                                            <div style="margin-top:10px; color:#ef4444; font-weight:bold;">🚨 AI Prediction: Bearing Seizure in ~72 Hrs (94% Confidence)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item"><div class="step-number">3</div><div class="step-body"><div class="step-title">Automated Preventive Work-Order Webhook</div><div class="step-desc"><strong>Implementation:</strong> The Maintenance Officer receives the alert and clicks "Create Ticket". Azure IoT uses a webhook to automatically push a priority ticket into the regional HVAC dispatch system with the exact failing part number, ensuring repair happens before spoilage.</div></div></div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="openModule(null, 'mod2')">&larr; Previous Module</button>
+                    <button class="btn-nav-next" onclick="document.querySelector('#mod3 .subnav-btn:nth-child(2)').click()">Next: Scenarios & Check &rarr;</button>
+                </div>
+            </div>
+
+            <div id="m3-scenario" class="sub-section">
+                <div class="scenario-box">
+                    <h4>📝 Scenario 1: The Vibrating Compressor</h4>
+                    <p><strong>Situation:</strong> Store #114 reports their biological fridge is making a loud buzzing noise, but the temperature is normal.</p>
+                    <p><strong>Correct Action:</strong> Log into Azure IoT Central. Observe compressor vibration spiked to 14.2 mm/s. Trigger a preventive maintenance work-order immediately, averting a failure predicted within 72 hours.</p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 1</h4>
+                    <p>What is the primary advantage of Predictive Maintenance over Reactive Maintenance?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m3_kc1" value="wrong"> A) It reduces the need to ever pay technicians.</label>
+                        <label><input type="radio" name="m3_kc1" value="correct"> B) It detects mechanical anomalies early, allowing repairs before medication is compromised.</label>
+                        <label><input type="radio" name="m3_kc1" value="wrong"> C) It automatically orders new refrigerators.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m3_kc1')">Check Answer</button>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>📝 Scenario 2: Misplaced High-Margin Items</h4>
+                    <p><strong>Situation:</strong> HQ rolls out a mandatory cosmetics endcap planogram across 45 stores. You need to audit compliance.</p>
+                    <p><strong>Correct Action:</strong> Store managers snap a photo of their endcap using Trax Retail. Computer vision AI maps the products to the planogram, highlights misplaced items with red boxes, and sends a regional compliance dashboard.</p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 2</h4>
+                    <p>How does Trax AI significantly benefit the VM manager?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m3_kc2" value="wrong"> A) By physically moving products on the shelf.</label>
+                        <label><input type="radio" name="m3_kc2" value="wrong"> B) By firing non-compliant store managers automatically.</label>
+                        <label><input type="radio" name="m3_kc2" value="correct"> C) By replacing manual site visits with instant, scalable visual auditing via photos.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m3_kc2')">Check Answer</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="document.querySelector('#mod3 .subnav-btn:nth-child(1)').click()">&larr; Back to Guide</button>
+                    <button class="btn-nav-next" onclick="openModule(null, 'mod4')">Continue to Module 4 &rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 4 -->
+        <div id="mod4" class="module-content">
+            <h2>Module 4: Operation Excellence &ndash; Analytics & Compliance</h2>
+            <div class="mod-subnav">
+                <button class="subnav-btn active" onclick="switchSubTab(this, 'm4-guide')">Tool Guide & Implementation</button>
+                <button class="subnav-btn" onclick="switchSubTab(this, 'm4-scenario')">Scenarios & Knowledge Check</button>
+            </div>
+            
+            <div id="m4-guide" class="sub-section active">
+                <div class="grid-layout">
+                    <div class="text-section expanded-content">
+                        <h3>Implementation Strategy</h3>
+                        <p>Operation Excellence requires moving past "descriptive analytics" (looking at static spreadsheets of past data) into "prescriptive analytics" via machine learning. We implement natural language models to allow non-technical managers to query massive datasets instantly, while deploying specialized ML models to detect Point-of-Sale (POS) fraud.</p>
+                        <p><strong>Operational Outcome:</strong> Real-time discovery of operational expense (OPEX) leakage and automated Narcomed regulatory auditing, replacing 3-week manual review cycles with 24-hour anomaly flagging.</p>
+                        <div class="tools-badge-container">
+                            <span class="tool-tag">Primary Tools</span>
+                            <span><strong>Power BI Copilot + Zebra Prescriptive Analytics</strong></span>
+                        </div>
+                    </div>
+                    <div class="video-section">
+                        <iframe class="course-video" style="height: 250px; border: none; border-radius: 8px;" src="https://www.youtube-nocookie.com/embed/jZ_y1bU2AAM" title="Power BI Copilot Analytics" allowfullscreen></iframe>
+                        <div class="video-label">Video: Power BI Copilot Analytics</div>
+                        <div class="video-desc">Live demonstration showing dashboard generation from conversational language.</div>
+                    </div>
+                </div>
+
+                <div class="walkthrough-container">
+                    <div class="walkthrough-header"><span class="walkthrough-title">🛠️ Detailed Guide: Power BI Copilot Conversational OpEx Audit</span><span class="tool-tag">Analytics Flow</span></div>
+                    <div class="step-timeline">
+                        <div class="step-item"><div class="step-number">1</div><div class="step-body"><div class="step-title">Semantic Model Preparation</div><div class="step-desc"><strong>Implementation:</strong> The AI requires clean data. The IT team must ensure the underlying dataset (e.g., <code>Retail_OpEx_Q3</code>) has well-defined column headers (e.g., "Maintenance Spend", "Store ID") so the Natural Language Processing (NLP) engine can accurately interpret human questions.</div></div></div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-body">
+                                <div class="step-title">Submit Conversational Analytical Prompt</div>
+                                <div class="step-desc"><strong>Implementation:</strong> Open the dataset, launch the Copilot side panel, and type your operational query in plain English. No SQL or DAX coding is required.</div>
+                                <div class="ui-mockup">
+                                    <div class="ui-mockup-header"><span class="ui-dot red"></span><span class="ui-dot yellow"></span><span class="ui-dot green"></span><span class="ui-window-title">Power BI Workspace</span></div>
+                                    <div class="ui-main-split">
+                                        <div class="ui-content" style="display:flex; align-items:center; justify-content:center; flex-direction:column;">
+                                            <div style="width:80%; height:60px; background:#e2e8f0; margin-bottom:5px;"></div>
+                                            <div style="width:80%; height:80px; background:#94a3b8;"></div>
+                                            <span style="font-size:0.75rem; margin-top:5px; color:#64748b;">[AI Generated Waterfall Chart Rendering...]</span>
+                                        </div>
+                                        <div class="ui-panel">
+                                            <strong>Copilot Pane</strong><hr style="margin:5px 0;">
+                                            <div class="ui-chat-bubble">
+                                                "Filter for Q3 maintenance expenses. Identify specific stores where expenditure grew by >15% vs Q2."
+                                            </div>
+                                            <div class="ui-btn-primary" style="font-size:0.75rem;">Generate Visual Insight</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item"><div class="step-number">3</div><div class="step-body"><div class="step-title">Insight Generation & Dashboard Pinning</div><div class="step-desc"><strong>Implementation:</strong> The AI instantly plots the mathematical output into a waterfall chart, highlighting 3 outlier branches. The manager clicks <strong>"Pin to Dashboard"</strong> to save this automated visual for the weekly VP leadership review.</div></div></div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="openModule(null, 'mod3')">&larr; Previous Module</button>
+                    <button class="btn-nav-next" onclick="document.querySelector('#mod4 .subnav-btn:nth-child(2)').click()">Next: Scenarios & Check &rarr;</button>
+                </div>
+            </div>
+
+            <div id="m4-scenario" class="sub-section">
+                <div class="scenario-box">
+                    <h4>📝 Scenario 1: The Midnight Voids</h4>
+                    <p><strong>Situation:</strong> Inventory discrepancies show missing high-value cosmetics, but stock counts don't align with sales reports.</p>
+                    <p><strong>Correct Action:</strong> Utilize Zebra Analytics to scan transaction logs. The AI highlights a pattern of "Item Voided after Cash Drawer Opened" occurring exclusively between 11 PM and midnight at two specific branches.</p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 1</h4>
+                    <p>How does AI detect POS shrinkage better than manual audits?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m4_kc1" value="correct"> A) By correlating complex, multi-variable transaction patterns across millions of records instantly.</label>
+                        <label><input type="radio" name="m4_kc1" value="wrong"> B) By physically watching the cashiers via robots.</label>
+                        <label><input type="radio" name="m4_kc1" value="wrong"> C) By guessing which cashier looks suspicious.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m4_kc1')">Check Answer</button>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>📝 Scenario 2: Missing Narcomed Batch</h4>
+                    <p><strong>Situation:</strong> The regional health authority requires strict accounting of all dispensed narcotics. A manual audit takes 3 weeks.</p>
+                    <p><strong>Correct Action:</strong> Implement an AI auditing pipeline that automatically cross-references daily digital dispense logs from the physician against physical barcode inventory scans at the end of every shift. Variances are flagged within 24 hours.</p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 2</h4>
+                    <p>What is the primary compliance benefit of AI Narcomed auditing?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m4_kc2" value="wrong"> A) It prescribes more narcotics.</label>
+                        <label><input type="radio" name="m4_kc2" value="correct"> B) It shifts the audit process from a delayed quarterly review to a near-real-time daily verification.</label>
+                        <label><input type="radio" name="m4_kc2" value="wrong"> C) It removes the need for physical barcodes.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m4_kc2')">Check Answer</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="document.querySelector('#mod4 .subnav-btn:nth-child(1)').click()">&larr; Back to Guide</button>
+                    <button class="btn-nav-next" onclick="openModule(null, 'mod5')">Continue to Module 5 &rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 5 -->
+        <div id="mod5" class="module-content">
+            <h2>Module 5: Strategic Deployment & Change Management</h2>
+            <div class="mod-subnav">
+                <button class="subnav-btn active" onclick="switchSubTab(this, 'm5-guide')">Tool Guide & Implementation</button>
+                <button class="subnav-btn" onclick="switchSubTab(this, 'm5-scenario')">Scenarios & Knowledge Check</button>
+            </div>
+            
+            <div id="m5-guide" class="sub-section active">
+                <div class="grid-layout">
+                    <div class="text-section expanded-content">
+                        <h3>Implementation Strategy</h3>
+                        <p>Successful AI adoption requires human change management and strict architectural governance. Before rolling tools out to the entire 82-person Operations team, leadership must configure private models to sanitize PHI and structure controlled 30-day pilot programs using the ADKAR change management framework.</p>
+                        <p><strong>Operational Outcome:</strong> Safe, measurable AI deployment that generates frontline buy-in without risking corporate data leaks or regulatory fines.</p>
+                        <div class="tools-badge-container">
+                            <span class="tool-tag">Primary Tools</span>
+                            <span><strong>Azure OpenAI Private Sandbox + Prosci ADKAR Framework</strong></span>
+                        </div>
+                    </div>
+                    <div class="video-section">
+                        <iframe class="course-video" style="height: 250px; border: none; border-radius: 8px;" src="https://www.youtube-nocookie.com/embed/2_H0hXfN7wU" title="Prosci ADKAR Model for Change Management" allowfullscreen></iframe>
+                        <div class="video-label">Video: Managing Tech Change (ADKAR)</div>
+                        <div class="video-desc">Structuring human change management to sustain AI operational adoption.</div>
+                    </div>
+                </div>
+
+                <div class="walkthrough-container">
+                    <div class="walkthrough-header"><span class="walkthrough-title">🛠️ Detailed Guide: Configuring Compliant Azure OpenAI Sandbox</span><span class="tool-tag">Leadership Flow</span></div>
+                    <div class="step-timeline">
+                        <div class="step-item"><div class="step-number">1</div><div class="step-body"><div class="step-title">Provision Isolated Private Deployment</div><div class="step-desc"><strong>Implementation:</strong> Log into Azure AI Studio. Select your corporate isolated model deployment (e.g., <code>gpt-4o-pharma-ops-v1</code>) ensuring it is completely firewalled from public internet data scraping.</div></div></div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-body">
+                                <div class="step-title">Define the System Message Guardrails</div>
+                                <div class="step-desc"><strong>Implementation:</strong> Configure the hardcoded meta-prompt to enforce compliance boundaries and prevent hallucination.</div>
+                                <div class="ui-mockup">
+                                    <div class="ui-mockup-header"><span class="ui-dot red"></span><span class="ui-dot yellow"></span><span class="ui-dot green"></span><span class="ui-window-title">Azure AI Studio &mdash; System Prompt Settings</span></div>
+                                    <div class="ui-layout-flex">
+                                        <div class="ui-sidebar">
+                                            <strong>Model Parameters</strong><hr style="margin:5px 0;">
+                                            Temp: <input type="range" value="20" style="width:100%;"> <span style="font-size:0.75rem;">0.2 (Low variance)</span><br><br>
+                                            Max Tokens: 800
+                                        </div>
+                                        <div class="ui-main">
+                                            <span class="ui-keyword">System Instructions (Mandatory Rules):</span><br>
+                                            <div class="ui-input-box" style="display:block; height:85px; overflow-y:auto; font-family:monospace; background:#f8fafc;">
+                                                "1. NEVER accept, store, or output identifiable Patient Health Information (PHI) such as IDs or full names.<br>
+                                                2. When queried regarding policies, ONLY cite verified company SOPs.<br>
+                                                3. If unsure, state 'Escalate to QA Department'."
+                                            </div>
+                                            <div class="ui-btn-success">Save & Deploy Web App</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-item"><div class="step-number">3</div><div class="step-body"><div class="step-title">Pilot Deployment via AI Champions</div><div class="step-desc"><strong>Implementation:</strong> Set the model <strong>Temperature to 0.2</strong> (ensuring highly factual, non-creative responses required for healthcare). Deploy the interface as a Web App restricted via SSO to only 5 designated "Regional AI Champions" for a 30-day KPI pilot test.</div></div></div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="openModule(null, 'mod4')">&larr; Previous Module</button>
+                    <button class="btn-nav-next" onclick="document.querySelector('#mod5 .subnav-btn:nth-child(2)').click()">Next: Scenarios & Check &rarr;</button>
+                </div>
+            </div>
+
+            <div id="m5-scenario" class="sub-section">
+                <div class="scenario-box">
+                    <h4>📝 Scenario 1: Automation Anxiety</h4>
+                    <p><strong>Situation:</strong> Rumors spread among the Retail Operations team that the new AI scheduling tool will lead to mass layoffs.</p>
+                    <p><strong>Correct Action:</strong> Implement the ADKAR model. Nominate 6 respected frontline supervisors as "AI Champions." Task them with demonstrating how the AI acts as an assistant that removes tedious admin work (like manual roster building), freeing staff to focus on patient care.</p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 1</h4>
+                    <p>What is the most effective approach for the initial 30-day AI Pilot?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m5_kc1" value="wrong"> A) Force all 82 employees to use the tool immediately.</label>
+                        <label><input type="radio" name="m5_kc1" value="correct"> B) Deploy to a small, controlled cohort (e.g., 5 agents) to measure baseline KPIs before enterprise scaling.</label>
+                        <label><input type="radio" name="m5_kc1" value="wrong"> C) Run the pilot in secret.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m5_kc1')">Check Answer</button>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>📝 Scenario 2: PHI Data Leak Prevention</h4>
+                    <p><strong>Situation:</strong> A regional manager wants to use AI to summarize patient prescription histories for a loyalty program.</p>
+                    <p><strong>Correct Action:</strong> Block this initiative if using public tools. Build a private Azure OpenAI Sandbox and hardcode the System Prompt to automatically reject, scrub, or refuse to process any string resembling a National ID or patient name.</p>
+                </div>
+                <div class="knowledge-check">
+                    <h4>💡 Knowledge Check 2</h4>
+                    <p>Why do we set the AI 'Temperature' parameter to a low number (e.g., 0.2) in pharma operations?</p>
+                    <div class="options">
+                        <label><input type="radio" name="m5_kc2" value="wrong"> A) To make the AI highly creative and write poems.</label>
+                        <label><input type="radio" name="m5_kc2" value="wrong"> B) To save electricity.</label>
+                        <label><input type="radio" name="m5_kc2" value="correct"> C) To ensure maximum factual accuracy and minimize hallucinations when citing SOPs.</label>
+                    </div>
+                    <button class="check-btn" onclick="window.checkModQuiz('m5_kc2')">Check Answer</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav-prev" onclick="document.querySelector('#mod5 .subnav-btn:nth-child(1)').click()">&larr; Back to Guide</button>
+                    <button class="btn-nav-next" onclick="openModule(null, 'step-post')" style="background-color: var(--accent-teal);">Proceed to Final Post-Assessment &rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FINAL POST-ASSESSMENT & EVALUATION -->
+        <div id="step-post" class="module-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                <h2>Post-Training Assessment</h2>
+                <div style="background:#f1f5f9; padding: 8px 12px; border-radius:4px; border: 1px solid var(--border);">
+                    <label style="display:inline; margin-right: 10px; font-weight:bold; color:var(--primary-navy);">Attempt Type:</label>
+                    <select id="post-attempt-type" style="width: auto; padding: 5px;"><option value="first">First Time</option><option value="retake">Retake Assessment</option></select>
+                </div>
+            </div>
+            <p style="margin-bottom: 20px; color: var(--text-muted);">Please answer all 10 scenario-based questions. <strong>Benchmark to pass is 80%.</strong></p>
+            <div id="post-questions-container"></div>
+            <div class="nav-buttons">
+                <button class="btn-nav-prev" onclick="openModule(null, 'mod5')">&larr; Back to Module 5</button>
+                <button id="gradeBtn" class="btn-submit" style="padding: 16px 40px; font-size: 1.1rem; width:auto;" onclick="window.gradePostAssessment()">Grade Assessment &rarr;</button>
+            </div>
+
+            <!-- Survey Section -->
+            <div id="survey-section">
+                <hr style="margin: 40px 0; border: 1px solid #eee;">
+                <h2>Training Program Evaluation Survey</h2>
+                <table class="likert">
+                    <thead><tr><th>Evaluation Dimension</th><th>1 (Poor)</th><th>2</th><th>3</th><th>4</th><th>5 (Excellent)</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Trainer Knowledge & Pacing</strong></td><td><input type="radio" name="s-trainer" value="1"></td><td><input type="radio" name="s-trainer" value="2"></td><td><input type="radio" name="s-trainer" value="3"></td><td><input type="radio" name="s-trainer" value="4"></td><td><input type="radio" name="s-trainer" value="5" checked></td></tr>
+                        <tr><td><strong>Presentation Clarity</strong></td><td><input type="radio" name="s-ppt" value="1"></td><td><input type="radio" name="s-ppt" value="2"></td><td><input type="radio" name="s-ppt" value="3"></td><td><input type="radio" name="s-ppt" value="4"></td><td><input type="radio" name="s-ppt" value="5" checked></td></tr>
+                    </tbody>
+                </table>
+                <div class="form-group"><label>Comment</label><textarea id="s-comment" placeholder="Feedback..."></textarea></div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button id="submitBtn" class="btn-submit" style="padding: 16px 40px; font-size: 1.1rem; width:100%;" onclick="window.submitCompleteEvaluation()">Submit Complete Package to Google Sheets &rarr;</button>
+                    <div id="loader">Submitting... Please wait.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-thanks" class="module-content">
+            <div class="card" style="text-align: center; padding: 50px 20px; border-top: 5px solid var(--accent-teal);">
+                <div style="font-size: 3.5rem; color: var(--accent-teal); margin-bottom: 15px;">✓</div>
+                <h2 style="border: none; margin-bottom: 10px;">Submission Successful</h2>
+                <p>Your pre-assessment, post-assessment scores, and evaluation feedback have been securely recorded.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FOR FEEDBACK -->
+    <div class="modal-overlay" id="feedback-modal">
+        <div class="modal-box">
+            <div class="modal-icon" id="modal-icon"></div>
+            <div class="modal-title" id="modal-title"></div>
+            <p id="modal-msg"></p>
+            <button class="modal-btn" id="modal-action-btn" onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+    
+    <!-- GLOBAL FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <a href="https://abdelhayfahmy.github.io/AFMasteryAcademy/" target="_blank" class="footer-link"><svg class="footer-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>abdelhayfahmy.github.io/AFMasteryAcademy/</a>
+            <a href="mailto:abdelhay.mamdouh@gmail.com" class="footer-link"><svg class="footer-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>abdelhay.mamdouh@gmail.com</a>
+            <a href="https://wa.me/201272331066" target="_blank" class="footer-link"><svg class="footer-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.031 0C5.393 0 0 5.385 0 12.023c0 2.128.552 4.195 1.6 6.02L.031 24l6.108-1.597c1.78.96 3.782 1.468 5.892 1.468 6.638 0 12.031-5.385 12.031-12.023S18.669 0 12.031 0zm0 21.872c-1.802 0-3.565-.483-5.114-1.396l-.367-.217-3.8.993.999-3.71-.238-.378c-.997-1.585-1.524-3.418-1.524-5.297 0-5.518 4.493-10.005 10.044-10.005 5.518 0 10.012 4.487 10.012 10.005 0 5.518-4.494 10.005-10.012 10.005zm5.503-7.514c-.302-.152-1.787-.88-2.064-.98-.277-.101-.48-.152-.682.152-.202.303-.78 1.002-.956 1.205-.176.203-.353.228-.655.076-1.554-.775-2.738-1.464-3.791-3.238-.205-.343.14-.325.568-.962.076-.152.038-.278-.019-.43-.057-.152-.682-1.64-.934-2.247-.245-.591-.494-.511-.682-.52-.176-.008-.378-.01-.58-.01-.202 0-.53.076-.807.38C6.673 8.355 5.84 9.24 5.84 11.06c0 1.819 1.16 3.58 1.32 3.783.16.202 2.58 3.94 6.255 5.526 2.378 1.022 3.243.868 3.844.757.731-.135 2.348-.965 2.676-1.898.328-.934.328-1.737.227-1.898-.101-.162-.378-.253-.681-.405z"/></svg>+201272331066</a>
+            <a href="https://www.linkedin.com/in/abdelhayfahmy" target="_blank" class="footer-link"><svg class="footer-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.225 0H1.77C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.77 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0zM7.12 20.452H3.554V9.034H7.12v11.418zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm15.115 13.019h-3.555v-5.569c0-1.328-.024-3.037-1.852-3.037-1.851 0-2.133 1.444-2.133 2.939v5.667H9.356V9.034h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.252z"/></svg>linkedin.com/in/abdelhayfahmy</a>
+        </div>
+    </footer>
+
+    <!-- JS ANTI-THEFT & ENCRYPTED LOGIC -->
+    <script>
+        (function(){
+            // [ANTI-THEFT LAYER 1: Right Click Disable]
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            // [ANTI-THEFT LAYER 2: Keyboard Shortcuts Disable]
+            document.addEventListener('keydown', e => {
+                if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','i','J','j','C','c'].includes(e.key))||(e.ctrlKey&&['U','u','S','s','P','p','C','c'].includes(e.key)))e.preventDefault();
+            });
+
+            // [CORE LOGIC ENCRYPTED/MINIFIED LAYER]
+            let preScorePercent=0,postScorePercent=0;const audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+            function playSound(t){if(audioCtx.state==='suspended')audioCtx.resume();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);if(t==='success'){o.type='sine';o.frequency.setValueAtTime(523.25,audioCtx.currentTime);o.frequency.setValueAtTime(659.25,audioCtx.currentTime+0.1);o.frequency.setValueAtTime(1046.50,audioCtx.currentTime+0.2);g.gain.setValueAtTime(0.1,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.5);o.start();o.stop(audioCtx.currentTime+0.5);}else if(t==='fail'){o.type='sawtooth';o.frequency.setValueAtTime(300,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(100,audioCtx.currentTime+0.3);g.gain.setValueAtTime(0.1,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);o.start();o.stop(audioCtx.currentTime+0.3);}else if(t==='nav_next'){o.type='sine';o.frequency.setValueAtTime(400,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(800,audioCtx.currentTime+0.1);g.gain.setValueAtTime(0.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.1);o.start();o.stop(audioCtx.currentTime+0.1);}else if(t==='nav_prev'){o.type='sine';o.frequency.setValueAtTime(800,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(400,audioCtx.currentTime+0.1);g.gain.setValueAtTime(0.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.1);o.start();o.stop(audioCtx.currentTime+0.1);}}
+            document.addEventListener('click',e=>{if(e.target.classList.contains('btn-nav-next')||e.target.classList.contains('btn-submit'))playSound('nav_next');else if(e.target.classList.contains('btn-nav-prev'))playSound('nav_prev');});
+            function showModal(i,t,m,b,a){document.getElementById('modal-icon').innerHTML=i;document.getElementById('modal-title').innerText=t;document.getElementById('modal-msg').innerHTML=m;const btn=document.getElementById('modal-action-btn');btn.innerText=b;btn.onclick=a||window.closeModal;document.getElementById('feedback-modal').classList.add('active');}
+            window.closeModal=function(){document.getElementById('feedback-modal').classList.remove('active');};
+            window.switchSubTab=function(b,t){const p=b.parentElement;p.querySelectorAll('.subnav-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');const s=p.nextElementSibling.parentElement;s.querySelectorAll('.sub-section').forEach(x=>x.classList.remove('active'));document.getElementById(t).classList.add('active');window.scrollTo(0,0);};
+            window.checkModQuiz=function(r){const s=document.querySelector(`input[name="${r}"]:checked`);if(!s){alert("Please select an answer first.");return;}if(s.value==="correct"){playSound('success');showModal('🏆','Great job!','Your operational logic is spot on.','Continue');}else{playSound('fail');showModal('😢','Try Again','Review the correct action in the scenario and try again.','Retry');}};
+            const preQ=[{q:"What is the primary difference between Generative AI and Predictive AI in operations?",opts:["Generative AI creates new content; Predictive AI forecasts trends","No difference","Generative is for music only"],ans:0},{q:"Which tool represents an approved Enterprise AI assistant?",opts:["Public ChatGPT","Microsoft 365 Copilot with Enterprise Data Protection","An unverified browser extension"],ans:1},{q:"In the 'ACT' Prompt Engineering framework, what does 'A' stand for?",opts:["Analyze Data","Automate Server","Assign a Role"],ans:2},{q:"What does IoT telemetry in pharmacy refrigeration monitor?",opts:["Cash registers","Temperature and compressor vibration","Employee clock-ins"],ans:1},{q:"Should identifiable patient prescription data be entered into a public AI tool?",opts:["Yes","No, it violates compliance","Only with manager approval"],ans:1},{q:"How does computer vision assist Visual Merchandising?",opts:["Painting walls","Auditing shelf planograms via photos","Cleaning floors"],ans:1},{q:"What is the primary operational benefit of AI in last-mile delivery?",opts:["Free fuel","Dynamic multi-stop route optimization","Replacing couriers"],ans:1},{q:"How does AI sentiment analysis assist Guest Care?",opts:["Automatically tags customer emotion and triages urgency","Deletes angry emails","Prints tickets"],ans:0},{q:"What role does an 'AI Champion' play?",opts:["Writing foundational AI code","Frontline peer mentor driving adoption","Purchasing hardware"],ans:1},{q:"How can Power BI Copilot best support a Performance Manager?",opts:["Running natural language queries to find anomalies","Sending bulk spam","Replacing Excel completely"],ans:0}];
+            const postQ=[{q:"In Microsoft 365 Copilot, how do you verify your prompt is protected?",opts:["Look for the Green Shield / Commercial Data Protection banner","Send an email to IT","Use incognito mode"],ans:0},{q:"How does Zendesk AI enhance Guest Care during delays?",opts:["Turns off chat support","Analyzes sentiment and auto-drafts an empathetic response with live GPS","Auto-cancels the order"],ans:1},{q:"In Route4Me, what constraint must be prioritized during disruptions?",opts:["Vehicle paint color","Temperature-sensitive cold-chain items delivery windows","Driver breaks"],ans:1},{q:"In Azure IoT Central, what anomaly trigger indicates a compressor failure?",opts:["Normal temperature logs","Compressor vibration spike (>10 mm/s RMS)","Door open sensor"],ans:1},{q:"How does Trax Computer Vision verify VM execution?",opts:["Staff snap an iPad photo; AI matches shelf layout against planograms","Manual tape measurements","Customer surveys"],ans:0},{q:"What prompt format should be used in Power BI Copilot?",opts:["A random word","Specific natural language stating filter, metric, and condition","SQL script"],ans:1},{q:"How does Zebra Analytics catch POS shrinkage?",opts:["Tracks badges","Correlates transaction void patterns after cash acceptance","Shuts off POS registers"],ans:1},{q:"How does AI assist QA teams with Narcomed compliance?",opts:["Auto-dispensing medications","Cross-referencing digital dispense logs against inventory counts","Printing forms"],ans:1},{q:"When configuring a System Message in Azure OpenAI Sandbox, what is the primary guardrail?",opts:["Restricting responses to verified company SOPs and forbidding PHI data retention","Allowing web scraping","Increasing creativity"],ans:0},{q:"What is the recommended 30-day pilot strategy?",opts:["Deploy all tools at once","Define measurable KPIs, test in a small controlled group, and review CSAT","Wait 5 years"],ans:1}];
+            function renderQuiz(q,c,p){const cont=document.getElementById(c);let h="";q.forEach((i,idx)=>{h+=`<div class="question"><p>${idx+1}. ${i.q}</p><div class="options">`;i.opts.forEach((o,oidx)=>{const ic=(oidx===i.ans)?"true":"false";h+=`<label id="lbl-${p}-${idx}-${oidx}"><input type="radio" name="${p}-q${idx}" value="${ic}" data-idx="${oidx}"> ${o}</label>`;});h+=`</div></div>`;});cont.innerHTML=h;}
+            renderQuiz(preQ,'pre-questions-container','pre');renderQuiz(postQ,'post-questions-container','post');
+            window.startPortal=function(){if(audioCtx.state==='suspended')audioCtx.resume();document.getElementById('step-home').style.display='none';document.getElementById('step-home').classList.remove('active');document.getElementById('main-header').style.display='block';document.getElementById('main-tabs').style.display='flex';window.openModule(null,'step-agenda');};
+            window.openModule=function(e,m){if(m!=='step-home')document.getElementById('step-home').style.display='none';document.querySelectorAll(".module-content").forEach(el=>{if(el.id!=='step-home'){el.style.display="none";el.classList.remove("active");}});document.querySelectorAll(".tab-button").forEach(el=>el.classList.remove("active"));if(m!=='step-home'){document.getElementById(m).style.display="block";setTimeout(()=>{document.getElementById(m).classList.add("active");},10);}else{document.getElementById('main-header').style.display='none';document.getElementById('main-tabs').style.display='none';document.getElementById('step-home').style.display='block';setTimeout(()=>{document.getElementById('step-home').classList.add("active");},10);}if(e&&e.currentTarget)e.currentTarget.classList.add("active");else{const b=document.querySelector(`button[onclick*="${m}"]`);if(b)b.classList.add("active");}document.querySelectorAll('iframe.course-video').forEach(f=>{f.src=f.src;});window.scrollTo(0,0);};
+            function calculateScorePercent(p,t){let c=0;for(let i=0;i<t;i++){const s=document.querySelector(`input[name="${p}-q${i}"]:checked`);if(s&&s.value==="true")c++;}return Math.round((c/t)*100);}
+            window.validateAndStart=function(){const r=['t-name','t-email','t-mobile','t-title','t-dept'];for(let id of r){if(!document.getElementById(id).value.trim()){alert("Please fill out all required Trainee Registration fields.");return;}}preScorePercent=calculateScorePercent('pre',preQ.length);window.openModule(null,'mod1');};
+            window.gradePostAssessment=function(){postScorePercent=calculateScorePercent('post',postQ.length);if(postScorePercent>=80){playSound('success');showModal('🏆','Congratulations!',`You scored ${postScorePercent}%. You have passed the final assessment! Please complete the evaluation survey below.`,'Proceed to Survey',()=>{window.closeModal();document.getElementById('gradeBtn').style.display='none';document.getElementById('survey-section').style.display='block';window.scrollTo(0,document.body.scrollHeight);});}else{playSound('fail');for(let i=0;i<postQ.length;i++){const s=document.querySelector(`input[name="post-q${i}"]:checked`);if(s&&s.value==="false")s.parentElement.classList.add('opt-wrong');document.querySelector(`input[name="post-q${i}"][value="true"]`).parentElement.classList.add('opt-correct');}showModal('😢','Assessment Failed',`You scored ${postScorePercent}%. You need 80% to pass. We have highlighted the correct answers. Please review them and click 'Retake Assessment'.`,'Retake Assessment',()=>{window.closeModal();resetPostAssessment();document.getElementById('post-attempt-type').value='retake';});}};
+            function resetPostAssessment(){for(let i=0;i<postQ.length;i++){document.querySelectorAll(`input[name="post-q${i}"]`).forEach(r=>{r.checked=false;r.parentElement.classList.remove('opt-wrong','opt-correct');});}document.getElementById('survey-section').style.display='none';document.getElementById('gradeBtn').style.display='inline-block';window.scrollTo(0,0);}
+            window.submitCompleteEvaluation=function(){const p={name:document.getElementById('t-name').value,email:document.getElementById('t-email').value,mobile:document.getElementById('t-mobile').value,whatsapp:document.getElementById('t-whatsapp').value,title:document.getElementById('t-title').value,department:document.getElementById('t-dept').value,preScore:preScorePercent+"%",postScore:postScorePercent+"%",trainerRating:document.querySelector('input[name="s-trainer"]:checked')?.value,pptRating:document.querySelector('input[name="s-ppt"]:checked')?.value,comment:document.getElementById('s-comment').value};const btn=document.getElementById('submitBtn'),ldr=document.getElementById('loader');btn.disabled=true;ldr.style.display='block';fetch("https://script.google.com/macros/s/AKfycbxkAt1rsnk_JxTPzdvN5lldcGclr-RKZ9g4qudmagb0Gme0Q0FglsQRa71RAGybnHltbA/exec",{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)}).then(r=>r.json()).then(d=>{ldr.style.display='none';window.openModule(null,'step-thanks');document.querySelector('.tab-container').style.display='none';}).catch(e=>{ldr.style.display='none';window.openModule(null,'step-thanks');document.querySelector('.tab-container').style.display='none';});};
+        })();
+    </script>
+</body>
+</html>
